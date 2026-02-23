@@ -7,6 +7,7 @@
     {% load static %}
     {% load crispy_forms_tags %}
 
+
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'bootstrap/icons/bootstrap-icons.css' %}">
    
@@ -17,7 +18,9 @@
             <a class="navbar-brand" href="{% url 'dept-list' %}">HR System</a>
             <div class="navbar-nav">
                 <a class="nav-link" href="{% url 'dept-list' %}">Departments</a>
-                <a class="nav-link" href="{% url 'emp-list' %}">Employee</a>
+            </div>
+            <div class="navbar-nav">
+                <a class="nav-link" href="{% url 'emp-list' %}">Employees</a> 
             </div>
         </div>
     </nav>
@@ -26,7 +29,11 @@
         {% block content %}{% endblock %}
     </div>
 
+    
+
+
     <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
 
 </body>
 </html>

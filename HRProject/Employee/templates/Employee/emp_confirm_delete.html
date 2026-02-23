@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>Delete {{ object.dname }}?</h2>
-<p>Are you sure? This deletes related employees too (CASCADE).</p>
+<h2>Delete {{ object.ename }}?</h2>
+<p>Are you sure you want to delete the employee record for <strong>{{ object.ename }}</strong>?</p>
 <form method="post">
     {% csrf_token %}
     <button type="submit" class="btn btn-danger">Yes, Delete</button>

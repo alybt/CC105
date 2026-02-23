@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
-import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-jkzpl0fdq7up-_&-2+ivm=f7t8^ookt*y+t(1=s^9%&l%-%5dk'
+SECRET_KEY = 'django-insecure-um!d!9rq%51@w-d5#r1n6!v*-$$rrnn^f$f39608*$w*!rvcn-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -32,7 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'Employee',
+    'Employee.apps.EmployeeConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,9 +41,6 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
 ]
-
-CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
-CRISPY_TEMPLATE_PACK = "boostrap5"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -61,7 +57,8 @@ ROOT_URLCONF = 'Main.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [BASE_DIR / 'templates'],
+
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -126,3 +123,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+        BASE_DIR / "static",
+]
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
