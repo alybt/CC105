@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<h2>{% if form.instance.pk %}Edit{% else %}Add{% endif %} Department</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <a href="{% url 'emp-list' %}" class="btn btn-secondary">Cancel</a>
+    <button type="submit" class="btn btn-primary px-4">Save Department</button>
+</form>
+{% endblock %}

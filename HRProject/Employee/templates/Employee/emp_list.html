@@ -1,0 +1,23 @@
+{% extends 'base.html' %}  
+{% block content %}
+<h2>Departments</h2>
+<a href="{% url 'emp-create' %}" class="btn btn-success"><i class="bi bi-plus-circle"></i> Add Department</a>
+<table class="table">
+<thead><tr><th>ID</th><th>Name</th><th>Location</th><th>Actions</th></tr></thead>
+<tbody>
+{% for emp in emps %}
+<tr>
+    <td>{{ emp.empno }}</td>
+    <td><a href="{% url 'emp-detail' emp.pk %}">{{ emp.dname }}</a></td>
+    <td>{{ emp.loc }}</td>
+    <td>
+        <a href="{% url 'emp-update' emp.pk %}" class="btn btn-sm btn-warning">Edit</a>
+        <a href="{% url 'emp-delete' emp.pk %}" class="btn btn-sm btn-danger">Delete</a>
+    </td>
+</tr>
+{% empty %}
+<p>No departments</p>
+{% endfor %}
+</tbody>
+</table>
+{% endblock %}

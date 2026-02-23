@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-header d-flex justify-content-between align-items-center bg-primary text-white">
+                <h2 class="mb-0">{{ object.dname }}</h2>
+                <span class="badge bg-light text-dark">ID: {{ object.deptno }}</span>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Location:</strong> {{ object.loc }}</p>
+                        <p><strong>Employees:</strong> {{ object.emp_set.count }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="btn-group w-100">
+                    <a href="{% url 'dept-update' object.pk %}" class="btn btn-outline-warning">Edit Department</a>
+                    <a href="{% url 'dept-delete' object.pk %}" class="btn btn-outline-danger">Delete Department</a>
+                    <a href="{% url 'dept-list' %}" class="btn btn-secondary">← Back to List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
