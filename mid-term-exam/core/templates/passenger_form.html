@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="row justify-content-center mb-5">
+    <div class="col-md-10 col-lg-8">
+        <div class="card shadow-lg border-0">
+            <div class="card-header bg-dark text-white py-3">
+                <h4 class="mb-0">
+                    <i class="bi {% if form.instance.pk %}bi-pencil-square{% else %}bi-person-plus-fill{% endif %} me-2"></i>
+                    {% if form.instance.pk %}Edit Passenger Record{% else %}Register New Passenger{% endif %}
+                </h4>
+            </div>
+
+            <div class="card-body p-4">
+                <form method="post" class="needs-validation">
+                    {% csrf_token %}
+                    
+                    <div class="row border-bottom mb-4 pb-2">
+                        <div class="col-12">
+                            <h5 class="text-primary"><i class="bi bi-person-vcard me-2"></i>Identity & Status</h5>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-8">{{ form.name|as_crispy_field }}</div>
+                        <div class="col-md-4">{{ form.survived|as_crispy_field }}</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">{{ form.pclass|as_crispy_field }}</div>
+                        <div class="col-md-4">{{ form.sex|as_crispy_field }}</div>
+                        <div class="col-md-4">{{ form.age|as_crispy_field }}</div>
+                    </div>
+
+                    <div class="row border-bottom mb-4 mt-2 pb-2">
+                        <div class="col-12">
+                            <h5 class="text-primary"><i class="bi bi-ticket-perforated me-2"></i>Travel Details</h5>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">{{ form.ticket|as_crispy_field }}</div>
+                        <div class="col-md-6">{{ form.fare|as_crispy_field }}</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">{{ form.cabin|as_crispy_field }}</div>
+                        <div class="col-md-4">{{ form.embarked|as_crispy_field }}</div>
+                        <div class="col-md-4">{{ form.home_dest|as_crispy_field }}</div>
+                    </div>
+
+                    <div class="row border-bottom mb-4 mt-2 pb-2">
+                        <div class="col-12">
+                            <h5 class="text-primary"><i class="bi bi-shield-plus me-2"></i>Family & Recovery</h5>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">{{ form.sibsp|as_crispy_field }}</div>
+                        <div class="col-md-3">{{ form.parch|as_crispy_field }}</div>
+                        <div class="col-md-3">{{ form.boat|as_crispy_field }}</div>
+                        <div class="col-md-3">{{ form.body|as_crispy_field }}</div>
+                    </div>
+
+                    <div class="mt-5 d-flex justify-content-between align-items-center">
+                        <a href="{% url 'passenger-list' %}" class="btn btn-link text-decoration-none text-muted">
+                            <i class="bi bi-chevron-left"></i> Cancel and Return
+                        </a>
+                        <button type="submit" class="btn btn-primary btn-lg px-5 shadow-sm">
+                            <i class="bi bi-check-lg me-2"></i> Save Passenger
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

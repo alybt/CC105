@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="bi bi-table"></i> </h2>
+    
+    <div class="d-flex gap-2">
+        <div class="btn-group shadow-sm" role="group">
+            <a href="{% url 'passenger-list' %}" 
+                class="btn btn-outline-primary {% if not request.GET.show %}active{% endif %}">
+                <i class="bi bi-layers"></i> By Page
+            </a>
+            <a href="?show=all" 
+                class="btn btn-outline-primary {% if request.GET.show == 'all' %}active{% endif %}">
+                <i class="bi bi-eye-fill"></i> Show All
+            </a>
+        </div>
+
+        <a href="{% url 'passenger-create' %}" class="btn btn-success shadow-sm">
+            <i class="bi bi-plus-circle"></i> Add Passenger
+        </a>
+    </div>
+</div>
+
+<div class="card shadow border-0">
+    <div class="table-responsive">
+        <table class="table table-sm table-hover align-middle mb-0">
+            <thead class="table-dark" style="white-space: nowrap;">
+                <tr>
+                    <th>ID</th>
+                    <th>Pclass</th>
+                    <th>Survived</th>
+                    <th>Name</th>
+                    <th>Sex</th>
+                    <th>Age</th>
+                    <th>SibSp</th>
+                    <th>Parch</th>
+                    <th>Ticket</th>
+                    <th>Fare</th>
+                    <th>Cabin</th>
+                    <th>Embarked</th>
+                    <th>Boat</th>
+                    <th>Body</th>
+                    <th>Home/Dest</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody style="font-size: 0.9rem;">
+                {% for p in passengers %}
+                <tr>
+                    <td>{{ p.id }}</td>
+                    <td>{{ p.pclass }}</td>
+                    <td>
+                        {% if p.survived == 1 %}
+                            <span class="text-success fw-bold">Yes</span>
+                        {% else %}
+                            <span class="text-danger">No</span>
+                        {% endif %}
+                    </td>
+                    <td><a href="{% url 'passenger-detail' p.pk %}" class="fw-bold text-decoration-none">{{ p.name }}</a></td>
+                    <td>{{ p.sex|title }}</td>
+                    <td>{{ p.age|default:"-" }}</td>
+                    <td>{{ p.sibsp }}</td>
+                    <td>{{ p.parch }}</td>
+                    <td><code>{{ p.ticket }}</code></td>
+                    <td>${{ p.fare|floatformat:2 }}</td>
+                    <td>{{ p.cabin|default:"-" }}</td>
+                    <td>{{ p.embarked|default:"-" }}</td>
+                    <td>{{ p.boat|default:"-" }}</td>
+                    <td>{{ p.body|default:"-" }}</td>
+                    <td><small>{{ p.home_dest|default:"-" }}</small></td>
+                    <td class="text-center">
+                        <div class="btn-group">
+                            <a href="{% url 'passenger-update' p.pk %}" class="btn btn-sm btn-outline-warning">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <a href="{% url 'passenger-delete' p.pk %}" class="btn btn-sm btn-outline-danger">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="16" class="text-center py-4">No records found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% if is_paginated and request.GET.show != 'all' %}
+<nav class="mt-4">
+    <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+        {% endif %}
+        <li class="page-item disabled"><span class="page-link text-dark">Page {{ page_obj.number }} of {{ paginator.num_pages }}</span></li>
+        {% if page_obj.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+
+{% if request.GET.show == 'all' %}
+    <div class="text-center mt-3 text-muted">
+        <small>Displaying all records</small>
+    </div>
+{% endif %}
+
+{% endblock %}

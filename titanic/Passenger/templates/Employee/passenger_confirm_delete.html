@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card border-danger shadow">
+            <div class="card-header bg-danger text-white">
+                <h3 class="mb-0">Confirm Deletion</h3>
+            </div>
+            <div class="card-body">
+                <p class="lead">Are you sure you want to permanently remove this record?</p>
+                <div class="alert alert-warning">
+                    <strong>Passenger:</strong> {{ object.name }} <br>
+                    <strong>ID:</strong> {{ object.passenger }} <br>
+                    <strong>Ticket:</strong> {{ object.ticket }}
+                </div>
+                <p class="text-muted">This action cannot be undone. All data associated with this passenger will be lost.</p>
+            </div>
+            <div class="card-footer bg-transparent">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{% url 'passenger-list' %}" class="btn btn-secondary me-md-2">Cancel</a>
+                        <button type="submit" class="btn btn-danger">Yes, Delete Permanently</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

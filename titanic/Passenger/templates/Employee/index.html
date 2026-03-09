@@ -1,0 +1,6 @@
+<h1>Employees</h1>
+<ul>
+{% for passenger in passengers %}
+<li>{{ passenger.ename }} ({{ passenger.job }}) - Dept: {{ passenger.deptno.dname }}</li>
+{% endfor %}
+</ul>

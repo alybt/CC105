@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white d-flex justify-content-between">
+                <h3 class="mb-0">{{ object.name }}</h3>
+                <span>ID: {{ object.passenger_id }}</span>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <p><strong>Survived:</strong> {{ object.survived|yesno:"Yes,No" }}</p>
+                        <p><strong>Class:</strong> {{ object.pclass }}</p>
+                        <p><strong>Sex:</strong> {{ object.sex }}</p>
+                        <p><strong>Age:</strong> {{ object.age|default:"N/A" }}</p>
+                    </div>
+                    <div class="col-sm-6">
+                        <p><strong>Fare:</strong> ${{ object.fare }}</p>
+                        <p><strong>Cabin:</strong> {{ object.cabin|default:"None" }}</p>
+                        <p><strong>Destination:</strong> {{ object.home_dest|default:"Unknown" }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-white">
+                <div class="btn-group w-100">
+                    <a href="{% url 'passenger-list' %}" class="btn btn-secondary">Back</a>
+                    <a href="{% url 'passenger-update' object.pk %}" class="btn btn-warning">Edit</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends 'base.html' %}  
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="bi bi-ship"></i> Passenger Manifesto</h2>
+    <a href="{% url 'passenger-create' %}" class="btn btn-success shadow-sm">
+        <i class="bi bi-person-plus-fill"></i> Add New Passenger
+    </a>
+</div>
+
+<div class="card shadow border-0">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th class="ps-3">ID</th>
+                        <th>Name</th>
+                        <th>Class</th>
+                        <th>Ticket</th>
+                        <th>Fare</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for passenger in passengers %}
+                    <tr>
+                        <td class="ps-3 text-muted">{{ passenger.passenger }}</td>
+                        <td>
+                            <a href="{% url 'passenger-detail' passenger.pk %}" class="fw-bold text-decoration-none text-primary">
+                                {{ passenger.name }}
+                            </a>
+                        </td>
+                        <td><span class="badge bg-secondary">Class {{ passenger.pclass }}</span></td>
+                        <td><code>{{ passenger.ticket }}</code></td>
+                        <td>${{ passenger.fare|floatformat:2 }}</td>
+                        <td class="text-center">
+                            <div class="btn-group">
+                                <a href="{% url 'passenger-update' passenger.pk %}" class="btn btn-sm btn-outline-warning" title="Edit">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a href="{% url 'passenger-delete' passenger.pk %}" class="btn btn-sm btn-outline-danger" title="Delete">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="6" class="text-center py-5 text-muted">
+                            <i class="bi bi-search d-block mb-2" style="font-size: 2rem;"></i>
+                            No passenger records found in the database.
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% if is_paginated %}
+<nav class="mt-4">
+    <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+        {% endif %}
+        <li class="page-item active"><span class="page-link">{{ page_obj.number }}</span></li>
+        {% if page_obj.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+{% endblock %}
