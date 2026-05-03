@@ -1,0 +1,52 @@
+{% extends 'predictor/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                📊 Prediction Result
+            </div>
+            <div class="card-body text-center">
+                {% if result.error %}
+                    <div class="alert alert-danger">
+                        <h4>Error: {{ result.error }}</h4>
+                    </div>
+                {% else %}
+                    <div class="mb-4">
+                        <h3>Predicted Rating</h3>
+                        <div class="display-1 fw-bold text-{{ result.color }}">
+                            {{ result.rating }} / 5.0
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h4>Category: 
+                            <span class="badge bg-{{ result.color }}">{{ result.category }}</span>
+                        </h4>
+                        <h5 class="mt-3">{{ result.recommendation }}</h5>
+                    </div>
+                    
+                    <div class="alert alert-info">
+                        <strong>💡 How to interpret:</strong><br>
+                        • 4.0 - 5.0: High Rated - Excellent game!<br>
+                        • 3.0 - 3.9: Average Rated - Decent game<br>
+                        • 0.0 - 2.9: Low Rated - Needs improvement
+                    </div>
+                    
+                    {% if review_text %}
+                    <div class="mt-3">
+                        <strong>Review Preview:</strong>
+                        <p class="text-muted">{{ review_text }}...</p>
+                    </div>
+                    {% endif %}
+                {% endif %}
+                
+                <div class="mt-4">
+                    <a href="{% url 'home' %}" class="btn btn-secondary">← Predict Another Game</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
