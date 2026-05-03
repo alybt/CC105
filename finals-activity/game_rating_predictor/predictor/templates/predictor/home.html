@@ -1,120 +1,96 @@
 {% extends 'predictor/base.html' %}
 
+{% block title %}Home - Game Rating Predictor{% endblock %}
+
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-8">
         <div class="card">
-            <div class="card-header">
-                🎮 Game Rating Predictor
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0">Game Rating Predictor</h3>
             </div>
             <div class="card-body">
                 <p class="text-muted text-center mb-4">
                     Enter game details below to predict its rating (0-5 scale)
                 </p>
                 
+                {% if model_ready %}
+                <div class="alert alert-success">AI Model Active - Getting accurate predictions!</div>
+                {% else %}
+                <div class="alert alert-warning">Training Mode - Run 'python manage.py train_model' for better accuracy</div>
+                {% endif %}
+                
                 <form method="POST" action="{% url 'predict' %}">
                     {% csrf_token %}
                     
                     <div class="row">
                         <div class="col-md-6 mb-3">
+                            <label class="form-label">Game Name</label>
+                            <input type="text" name="game_name" class="form-control" required placeholder="Enter game name">
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Release Year</label>
+                            <input type="number" name="release_year" class="form-control" value="2023" min="1980" max="2025">
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Genre</label>
+                        <select name="genre" class="form-select">
+                            <option value="Adventure">Adventure</option>
+                            <option value="RPG">RPG</option>
+                            <option value="Action">Action</option>
+                            <option value="Indie">Indie</option>
+                            <option value="Platform">Platform</option>
+                            <option value="Puzzle">Puzzle</option>
+                            <option value="Strategy">Strategy</option>
+                            <option value="Shooter">Shooter</option>
+                        </select>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
                             <label class="form-label">Times Listed</label>
-                            <input type="number" class="form-control" name="times_listed" 
-                                    placeholder="e.g., 5000" value="1000">
+                            <input type="number" name="times_listed" class="form-control" value="1000">
                         </div>
                         
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Number of Reviews</label>
-                            <input type="number" class="form-control" name="num_reviews" 
-                                    placeholder="e.g., 3000" value="1000">
+                            <input type="number" name="num_reviews" class="form-control" value="1000">
                         </div>
                     </div>
                     
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Plays</label>
-                            <input type="number" class="form-control" name="plays" 
-                                    placeholder="e.g., 15000" value="5000">
+                            <input type="number" name="plays" class="form-control" value="5000">
                         </div>
                         
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Currently Playing</label>
-                            <input type="number" class="form-control" name="playing" 
-                                    placeholder="e.g., 2000" value="500">
+                            <input type="number" name="playing" class="form-control" value="500">
                         </div>
                     </div>
                     
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Backlogs</label>
-                            <input type="number" class="form-control" name="backlogs" 
-                                    placeholder="e.g., 5000" value="1000">
+                            <input type="number" name="backlogs" class="form-control" value="1000">
                         </div>
                         
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Wishlist</label>
-                            <input type="number" class="form-control" name="wishlist" 
-                                    placeholder="e.g., 3000" value="500">
+                            <input type="number" name="wishlist" class="form-control" value="500">
                         </div>
                     </div>
                     
                     <div class="mb-3">
-                        <label class="form-label">Release Year</label>
-                        <input type="number" class="form-control" name="release_year" 
-                                value="2023" min="1980" max="2025">
+                        <label class="form-label">Review Text (optional)</label>
+                        <textarea name="review_text" class="form-control" rows="3" placeholder="This game is amazing! Great graphics and gameplay..."></textarea>
                     </div>
                     
-                    <div class="mb-3">
-                        <label class="form-label">Genres</label>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="genre_adventure" value="1">
-                                    <label class="form-check-label">Adventure</label>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="genre_rpg" value="1">
-                                    <label class="form-check-label">RPG</label>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="genre_indie" value="1">
-                                    <label class="form-check-label">Indie</label>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="genre_platform" value="1">
-                                    <label class="form-check-label">Platform</label>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="genre_brawler" value="1">
-                                    <label class="form-check-label">Brawler</label>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="genre_puzzle" value="1">
-                                    <label class="form-check-label">Puzzle</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label class="form-label">Sample Review Text</label>
-                        <textarea class="form-control" name="review_text" rows="4" 
-                                    placeholder="Enter a sample review...">This game is amazing! Great graphics, fun gameplay, and engaging story. Highly recommend!</textarea>
-                        <small class="text-muted">This helps with sentiment analysis</small>
-                    </div>
-                    
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-primary">🎯 Predict Rating</button>
-                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Predict Rating</button>
                 </form>
             </div>
         </div>

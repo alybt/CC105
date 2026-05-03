@@ -1,0 +1,27 @@
+{% extends 'predictor/base.html' %}
+
+{% block title %}Delete Game{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-danger text-white">
+                <h3 class="mb-0">Delete Game</h3>
+            </div>
+            <div class="card-body text-center">
+                <p>Are you sure you want to delete <strong>{{ game.name }}</strong>?</p>
+                <p class="text-danger">This action cannot be undone!</p>
+                
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="d-flex justify-content-center gap-2">
+                        <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                        <a href="{% url 'game_list' %}" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

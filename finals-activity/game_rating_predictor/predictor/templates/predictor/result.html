@@ -1,11 +1,13 @@
 {% extends 'predictor/base.html' %}
 
+{% block title %}Prediction Result{% endblock %}
+
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-8">
         <div class="card">
-            <div class="card-header">
-                📊 Prediction Result
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0">Prediction Result</h3>
             </div>
             <div class="card-body text-center">
                 {% if result.error %}
@@ -28,10 +30,10 @@
                     </div>
                     
                     <div class="alert alert-info">
-                        <strong>💡 How to interpret:</strong><br>
-                        • 4.0 - 5.0: High Rated - Excellent game!<br>
-                        • 3.0 - 3.9: Average Rated - Decent game<br>
-                        • 0.0 - 2.9: Low Rated - Needs improvement
+                        <strong>How to interpret:</strong><br>
+                        4.0 - 5.0: High Rated - Excellent game!<br>
+                        3.0 - 3.9: Average Rated - Decent game<br>
+                        0.0 - 2.9: Low Rated - Needs improvement
                     </div>
                     
                     {% if review_text %}
@@ -43,7 +45,7 @@
                 {% endif %}
                 
                 <div class="mt-4">
-                    <a href="{% url 'home' %}" class="btn btn-secondary">← Predict Another Game</a>
+                    <a href="{% url 'home' %}" class="btn btn-secondary">Predict Another Game</a>
                 </div>
             </div>
         </div>

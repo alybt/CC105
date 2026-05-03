@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Import CSV</title>
+    <style>
+        body { font-family: Arial; max-width: 600px; margin: 50px auto; padding: 20px; }
+        .container { background: #f5f5f5; padding: 30px; border-radius: 10px; }
+        button { background: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; }
+        .result { margin-top: 20px; padding: 15px; border-radius: 5px; display: none; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📥 Import CSV to Database</h1>
+        <p>This will import all games from games.csv to the database.</p>
+        <p><strong>Warning:</strong> Existing games will be updated!</p>
+        
+        <button onclick="importCSV()">Start Import</button>
+        
+        <div id="result" class="result"></div>
+        
+        <br>
+        <a href="/games/">← Back to Games</a>
+    </div>
+    
+    <script>
+        async function importCSV() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = 'Importing...';
+            resultDiv.className = 'result';
+            
+            try {
+                const response = await fetch('/sync/import/', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': getCookie('csrftoken')
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    resultDiv.innerHTML = `Import complete!<br>
+                        New games: ${data.created}<br>
+                        Updated games: ${data.updated}<br>
+                        Total games: ${data.total}`;
+                    resultDiv.classList.add('success');
+                } else {
+                    resultDiv.innerHTML = `Error: ${data.message}`;
+                    resultDiv.classList.add('error');
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `Error: ${error.message}`;
+                resultDiv.classList.add('error');
+            }
+        }
+        
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>
+</body>
+</html>

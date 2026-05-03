@@ -1,0 +1,52 @@
+{% extends 'predictor/base.html' %}
+
+{% block title %}{{ game.name }}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+        <h3 class="mb-0">{{ game.name }}</h3>
+        <div>
+            <a href="{% url 'game_update' game.id %}" class="btn btn-warning btn-sm">Edit</a>
+            <a href="{% url 'game_delete' game.id %}" class="btn btn-danger btn-sm">Delete</a>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>Genre:</strong> {{ game.genre }}</p>
+                <p><strong>Release Year:</strong> {{ game.release_year }}</p>
+                <p><strong>Times Listed:</strong> {{ game.times_listed }}</p>
+                <p><strong>Number of Reviews:</strong> {{ game.num_reviews }}</p>
+                <p><strong>Plays:</strong> {{ game.plays }}</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Currently Playing:</strong> {{ game.playing }}</p>
+                <p><strong>Backlogs:</strong> {{ game.backlogs }}</p>
+                <p><strong>Wishlist:</strong> {{ game.wishlist }}</p>
+                <p><strong>Actual Rating:</strong> 
+                    {% if game.rating %}
+                        <span class="badge bg-success">{{ game.rating }}/5</span>
+                    {% else %}
+                        <span class="badge bg-secondary">Not rated</span>
+                    {% endif %}
+                </p>
+                <p><strong>Predicted Rating:</strong> 
+                    <span class="badge bg-primary">{{ predicted_rating }}/5</span>
+                </p>
+            </div>
+        </div>
+        
+        {% if game.description %}
+        <div class="mt-3">
+            <strong>Description:</strong>
+            <p class="text-muted">{{ game.description }}</p>
+        </div>
+        {% endif %}
+        
+        <div class="mt-4">
+            <a href="{% url 'game_list' %}" class="btn btn-secondary">Back to Games</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
